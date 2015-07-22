@@ -1,6 +1,26 @@
 Docker external ceph rbd graph driver
 =====================================
 
+# Why external rbd graph driver
+
+Long times ago, @dachary proposed implement [Ceph storage driver](https://github.com/docker/docker/issues/8854), but still not achieved now. The main reason is that it is not possible to statically compile docker with the ceph graph driver enabled because some static libraries are missing (Ubuntu 14.04) at the moment. 
+
+For support rbd storage driver, must use dynamic compile:
+
+```bash
+./hack/make.sh dynbinary
+```
+
+This is not accepted by docker community.
+
+- [#9146](https://github.com/docker/docker/pull/9146)
+
+- [#14800](https://github.com/docker/docker/pull/14800/)
+
+Now docker community plan to implement out-of-process graph driver [#13777](https://github.com/docker/docker/pull/13777). It is a good tradeoff between docker and rbd.
+
+As far, Docker is still not implement graph driver plugin interface, I wish [#13777](https://github.com/docker/docker/pull/13777) can be merged ASAP.
+
 # How to compile
 ```bash
 go build -v
